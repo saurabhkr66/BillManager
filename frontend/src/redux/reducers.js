@@ -15,15 +15,31 @@ const billSlice = createSlice({
       // Reapply budget filtering
       state.filteredBills = state.bills.filter((bill) => bill.amount <= state.monthlyBudget);
     },
+    // addBill: (state, action) => {
+    //   state.bills.push(action.payload);
+
+    //   // Reapply budget filtering
+    //   state.filteredBills = state.bills.filter((bill) => bill.amount <= state.monthlyBudget);
+
+    //   // Recalculate total amount
+    //   state.totalAmount = state.bills.reduce((acc, bill) => acc + parseFloat(bill.amount), 0);
+    // },
     addBill: (state, action) => {
-      state.bills.push(action.payload);
-
-      // Reapply budget filtering
+      const newBill = action.payload;
+      const newTotal = state.totalAmount + parseFloat(newBill.amount);
+    
+      // Check if the new total exceeds the monthly budget
+      if (newTotal > state.monthlyBudget) {
+        // Optionally, you could dispatch an error or notification here
+        return; // Do not add the bill if it exceeds the budget
+      }
+    
+      // Add the bill and update state
+      state.bills.push(newBill);
       state.filteredBills = state.bills.filter((bill) => bill.amount <= state.monthlyBudget);
-
-      // Recalculate total amount
-      state.totalAmount = state.bills.reduce((acc, bill) => acc + parseFloat(bill.amount), 0);
+      state.totalAmount = newTotal;
     },
+    
     editBill: (state, action) => {
       const index = state.bills.findIndex((bill) => bill.id === action.payload.id);
       if (index !== -1) {

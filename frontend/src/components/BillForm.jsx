@@ -35,6 +35,12 @@ const BillForm = ({ editMode, setEditMode, currentBill, setCurrentBill }) => {
   const handleAddOrUpdate = (e) => {
     e.preventDefault();
     const newAmount = parseFloat(currentBill.amount);
+    const newTotal = totalAmount + newAmount;
+
+  if (newTotal > monthlyBudget) {
+    setError(`Adding this bill exceeds the monthly budget of ₹${monthlyBudget}.`);
+    return;
+  }
 
     if (isNaN(newAmount) || newAmount <= 0) {
       setError('Please enter a valid amount');
