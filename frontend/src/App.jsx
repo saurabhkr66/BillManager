@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from './redux/Store';
+import store from './redux/store';
 import BillForm from './components/BillForm';
 import BillDashboard from './components/BillDashboard';
 import BillFilter from './components/BillFilter';
